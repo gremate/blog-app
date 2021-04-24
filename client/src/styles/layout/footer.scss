@@ -1,0 +1,27 @@
+@import '../mixins.scss';
+
+footer {
+    padding: 40px 0 10px 0;
+    background-color: rgb(23, 23, 23);
+
+    .links {
+        display: flex;
+        flex-flow: row wrap;
+
+        .link {
+            color: white;
+
+            @include user-select-none;
+
+            &:not(:last-child) {
+                margin-right: 15px;
+            }
+
+            &:hover {
+                color: rgb(190, 190, 190);
+                text-decoration: underline;
+                cursor: pointer;
+            }
+        }
+    }
+}

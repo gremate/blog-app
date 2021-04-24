@@ -1,0 +1,17 @@
+body {
+    margin: 0;
+    font-family: sans-serif;
+    background-color: rgb(40, 40, 40);
+
+    .page-container {
+        display: grid;
+        grid-template-rows: 1fr auto;
+        margin-top: 52px; //header height
+        min-height: calc(100vh - 52px); // 100vh - header height
+
+        .content-container {
+            margin: 0 auto;
+            width: 1350px;
+        }
+    }
+}
