@@ -1,0 +1,14 @@
+.custom-button-root {
+    &.custom-button-outlined {
+        padding: 5px 25px;
+        border-width: 2px;
+        border-color: white;
+        background-color: rgb(25, 25, 25);
+    }
+
+    .custom-button-label {
+        color: white;
+        text-transform: none;
+        font-size: 16px;
+    }
+}

@@ -9,8 +9,6 @@ footer {
         flex-flow: row wrap;
 
         .link {
-            color: white;
-
             @include user-select-none;
 
             &:not(:last-child) {

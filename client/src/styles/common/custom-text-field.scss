@@ -1,0 +1,33 @@
+$hover-focus-color: rgb(160, 160, 160);
+
+.custom-text-field-root {
+    background-color: rgb(25, 25, 25);
+
+    .custom-text-field-label-root {
+        transition-property: transform;
+        color: white;
+    }
+
+    .custom-text-field-input-root {
+        color: white;
+
+        .custom-text-field-input-notched-outline {
+            border-width: 2px;
+            border-color: white;
+        }
+    }
+
+    &:hover, &:focus-within {
+        .custom-text-field-label-root {
+            color: $hover-focus-color;
+        }
+
+        .custom-text-field-input-root {
+            color: $hover-focus-color;
+
+            .custom-text-field-input-notched-outline {
+                border-color: $hover-focus-color;
+            }
+        }
+    }
+}
