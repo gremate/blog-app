@@ -1,4 +1,5 @@
 import '../../styles/layout/footer.scss';
+import React from 'react';
 
 export default function Footer(props) {
     const links = ['About', 'Support', 'Privacy Policy', 'Terms of Service', 'Copyright Policy'];

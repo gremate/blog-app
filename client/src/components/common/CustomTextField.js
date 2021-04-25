@@ -1,4 +1,5 @@
 import '../../styles/common/custom-text-field.scss';
+import React from 'react';
 import { TextField } from '@material-ui/core';
 import PropTypes from 'prop-types';
 
