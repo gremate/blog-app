@@ -1,7 +1,13 @@
+@import '../mixins.scss';
+
 body {
     margin: 0;
     color: white;
     font-family: sans-serif;
+
+    * {
+        @include selection(rgb(130, 130, 130));
+    }
 
     .page-container {
         display: grid;

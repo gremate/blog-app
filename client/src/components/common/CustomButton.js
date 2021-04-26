@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 function CustomButton({ onClick, children }) {
     return (
-        <Button variant="outlined" classes={{ root: 'custom-button-root', label: 'custom-button-label', outlined: 'custom-button-outlined' }} onClick={onClick}>
+        <Button classes={{ root: 'custom-button-root', label: 'custom-button-label', outlined: 'custom-button-outlined' }} variant="outlined" onClick={onClick}>
             {children}
         </Button>
     );
