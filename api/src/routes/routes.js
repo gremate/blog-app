@@ -4,12 +4,19 @@ import pg from 'pg';
 
 const pool = new pg.Pool();
 
+// I use this function to simulate network calls
+function wait(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 function setGetRoutes(app) {
 
 }
 
 function setPostRoutes(app) {
     app.post('/login', async (request, response) => {
+        await wait(2000);
+
         const { username, password } = request.body;
 
         try {
