@@ -1,4 +1,4 @@
-import '../../styles/layout/loader.scss';
+import '../../styles/layout/_loader.scss';
 import React from 'react';
 import { useSelector } from 'react-redux';
 

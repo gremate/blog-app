@@ -1,4 +1,4 @@
-import '../../styles/application/login.scss';
+import '../../styles/application/_login.scss';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';

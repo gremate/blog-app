@@ -1,0 +1,23 @@
+@import '../mixins';
+
+$header-padding-top-bottom: 5px;
+$header-height: 50px;
+
+header {
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    padding: $header-padding-top-bottom 0;
+    height: $header-height;
+    width: 100%;
+    background-color: rgb(23, 23, 23);
+
+    .title {
+        font-size: 32px;
+
+        @include user-select-none;
+    }
+}

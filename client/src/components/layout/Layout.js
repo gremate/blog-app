@@ -1,4 +1,4 @@
-import '../../styles/layout/layout.scss';
+import '../../styles/layout/_layout.scss';
 import React from 'react';
 import Footer from './Footer';
 import Header from './Header';

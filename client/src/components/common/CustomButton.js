@@ -1,4 +1,4 @@
-import '../../styles/common/custom-button.scss';
+import '../../styles/common/_custom-button.scss';
 import React from 'react';
 import { Button } from '@material-ui/core';
 import PropTypes from 'prop-types';

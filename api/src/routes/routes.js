@@ -9,17 +9,44 @@ function wait(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function setGetRoutes(app) {
+function authenticateJwtToken(request, response, next) {
+    const jwtToken = request.get('Authorization')?.split(' ')[1];
 
+    if (!jwtToken) {
+        return response.sendStatus(401);
+    }
+
+    try {
+        const user = jwt.verify(jwtToken, process.env.JWT_SECRET);
+        request.user = user;
+
+        next();
+    } catch (error) {
+        response.sendStatus(403);
+    }
+}
+
+function setGetRoutes(app) {
+    app.get('/posts', authenticateJwtToken, async (request, response) => {
+        await wait(2000);
+
+        try {
+            const { userId } = request.user;
+            const result = await pool.query('SELECT * FROM posts WHERE "userId" = $1 ORDER BY "creationDate" DESC', [userId]);
+
+            response.json({ posts: result.rows });
+        } catch (error) {
+            response.sendStatus(500);
+        }
+    });
 }
 
 function setPostRoutes(app) {
     app.post('/login', async (request, response) => {
         await wait(2000);
 
-        const { username, password } = request.body;
-
         try {
+            const { username, password } = request.body;
             const result = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
             const [user] = result.rows;
 
@@ -27,7 +54,7 @@ function setPostRoutes(app) {
                 return response.sendStatus(400);
             }
 
-            const payload = { username: user.username };
+            const payload = { userId: user.id, username: user.username };
             const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
 
             response.json({ jwtToken: token });

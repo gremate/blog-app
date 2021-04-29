@@ -1,4 +1,4 @@
-import '../../styles/layout/footer.scss';
+import '../../styles/layout/_footer.scss';
 import React from 'react';
 
 export default function Footer(props) {

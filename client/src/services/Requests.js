@@ -1,49 +1,75 @@
+import { setJwtToken } from '../store/slice';
+
 export default class Requests {
-    static baseUrl = 'http://localhost:9000';
+    /**
+     * @private 
+     */
+    static _baseUrl = 'http://localhost:9000';
 
     static login(username, password) {
-        return Requests._post(`${Requests.baseUrl}/login`, { username, password });
+        return Requests._post(`${Requests._baseUrl}/login`, { username, password });
     }
 
-    static getPosts() { }
+    static getPosts(jwtToken, dispatch) {
+        return Requests._get(`${Requests._baseUrl}/posts`, jwtToken, dispatch);
+    }
 
-    //#region 'private' methods
-
-    static _get(url, jwtToken) {
+    /**
+     * For GET requests 
+     * @private 
+     */
+    static _get(url, jwtToken, dispatch) {
         return (async function () {
             const headers = new Headers();
             Requests._addAuthorization(headers, jwtToken);
 
             const response = await fetch(url, { method: 'GET', headers });
 
-            return Requests._processResponse(response);
+            return Requests._processResponse(response, dispatch);
         })();
     }
 
-    static _post(url, data, jwtToken) {
+    /**
+     * For POST requests 
+     * @private 
+     */
+    static _post(url, data, jwtToken, dispatch) {
         return (async function () {
             const headers = new Headers({ 'Content-Type': 'application/json' });
             Requests._addAuthorization(headers, jwtToken);
 
             const response = await fetch(url, { method: 'POST', headers, body: JSON.stringify(data) });
 
-            return Requests._processResponse(response);
+            return Requests._processResponse(response, dispatch);
         })();
     }
 
-    static _processResponse(response) {
+    /**
+     * Process a Response object 
+     * @private 
+     */
+    static _processResponse(response, dispatch) {
         if (!response.ok) {
-            throw response;
+            switch (response.status) {
+                case 401:
+                case 403:
+                    dispatch?.(setJwtToken(null));
+                    return;
+                default:
+                    throw response;
+            }
         }
 
         return response.json();
     }
 
+    /**
+     * Add jwt token to Authorization header 
+     * @private 
+     */
     static _addAuthorization(headers, jwtToken) {
         if (jwtToken) {
             headers.set('Authorization', `Bearer ${jwtToken}`);
         }
     }
-
-    //#endregion
 }

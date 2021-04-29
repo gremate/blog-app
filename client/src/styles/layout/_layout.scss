@@ -1,4 +1,7 @@
-@import '../mixins.scss';
+@import '../mixins';
+@import './header';
+
+$page-container-margin-top: ($header-padding-top-bottom * 2) + $header-height;
 
 body {
     margin: 0;
@@ -12,8 +15,8 @@ body {
     .page-container {
         display: grid;
         grid-template-rows: 1fr auto;
-        margin-top: 52px; //header height
-        min-height: calc(100vh - 52px); // 100vh - header height
+        margin-top: $page-container-margin-top;
+        min-height: calc(100vh - #{$page-container-margin-top});
         background-color: rgb(40, 40, 40);
 
         .content-container {
