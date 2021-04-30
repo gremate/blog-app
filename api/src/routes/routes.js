@@ -62,6 +62,26 @@ function setPostRoutes(app) {
             response.sendStatus(500);
         }
     });
+
+    app.post('/posts', authenticateJwtToken, async (request, response) => {
+        await wait(2000);
+
+        try {
+            const { title, content } = request.body;
+
+            if (!title || !content) {
+                return response.sendStatus(400);
+            }
+
+            const { userId } = request.user;
+            const result = await pool.query('INSERT INTO posts(title, content, "creationDate", "userId") VALUES ($1, $2, $3, $4) RETURNING *',
+                [title, content, new Date(), userId]);
+
+            response.status(201).json({ post: result.rows[0] });
+        } catch (error) {
+            response.sendStatus(500);
+        }
+    });
 }
 
 function setRoutes(app) {

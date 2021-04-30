@@ -14,6 +14,10 @@ export default class Requests {
         return Requests._get(`${Requests._baseUrl}/posts`, jwtToken, dispatch);
     }
 
+    static createPost(title, content, jwtToken, dispatch) {
+        return Requests._post(`${Requests._baseUrl}/posts`, { title, content }, jwtToken, dispatch);
+    }
+
     /**
      * For GET requests 
      * @private 
