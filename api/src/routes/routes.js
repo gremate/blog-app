@@ -84,9 +84,38 @@ function setPostRoutes(app) {
     });
 }
 
+function setDeleteRoutes(app) {
+    app.delete('/posts/:postId', authenticateJwtToken, async (request, response) => {
+        await wait(2000);
+
+        try {
+            const { postId } = request.params;
+
+            const [post] = (await pool.query('SELECT * FROM posts WHERE id = $1', [postId])).rows;
+
+            if (!post) {
+                return response.sendStatus(204);
+            }
+
+            const { userId } = request.user;
+
+            if (userId !== post.userId) {
+                return response.sendStatus(400);
+            }
+
+            await pool.query('DELETE FROM posts WHERE id = $1', [post.id]);
+
+            response.sendStatus(204);
+        } catch (error) {
+            response.sendStatus(500);
+        }
+    });
+}
+
 function setRoutes(app) {
     setGetRoutes(app);
     setPostRoutes(app);
+    setDeleteRoutes(app);
 }
 
 export default setRoutes;

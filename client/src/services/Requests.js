@@ -18,6 +18,10 @@ export default class Requests {
         return Requests._post(`${Requests._baseUrl}/posts`, { title, content }, jwtToken, dispatch);
     }
 
+    static deletePost(postId, jwtToken, dispatch) {
+        return Requests._delete(`${Requests._baseUrl}/posts/${postId}`, jwtToken, dispatch);
+    }
+
     /**
      * For GET requests 
      * @private 
@@ -43,6 +47,21 @@ export default class Requests {
             Requests._addAuthorization(headers, jwtToken);
 
             const response = await fetch(url, { method: 'POST', headers, body: JSON.stringify(data) });
+
+            return Requests._processResponse(response, dispatch);
+        })();
+    }
+
+    /**
+     * For DELETE requests
+     * @private
+     */
+    static _delete(url, jwtToken, dispatch) {
+        return (async function () {
+            const headers = new Headers();
+            Requests._addAuthorization(headers, jwtToken);
+
+            const response = await fetch(url, { method: 'DELETE', headers });
 
             return Requests._processResponse(response, dispatch);
         })();

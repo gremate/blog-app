@@ -36,6 +36,18 @@ export default function Posts() {
         dispatch(setLoading(false));
     }
 
+    async function onDeletePostButtonClick(postId) {
+        dispatch(setLoading(true));
+
+        try {
+            await Requests.deletePost(postId, jwtToken, dispatch);
+        } catch (error) { }
+
+        setPosts(prevPosts => prevPosts.filter(x => x.id !== postId));
+
+        dispatch(setLoading(false));
+    }
+
     return (
         <div className="posts">
             <div className="content-container">
@@ -43,11 +55,12 @@ export default function Posts() {
                     ? (
                         <>
                             <CreatePost onCreateButtonClick={onCreatePostButtonClick} />
-                            {posts.map(x => <Post key={x.id} content={x.content} creationDate={x.creationDate} id={x.id} title={x.title} />)}
+                            {posts.map(x => <Post key={x.id} content={x.content} creationDate={x.creationDate} id={x.id} title={x.title} onDeleteButtonClick={onDeletePostButtonClick} />)}
                         </>
                     )
                     : (
                         <>
+                            <FakePost />
                             <FakePost />
                             <FakePost />
                             <FakePost />
