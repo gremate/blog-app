@@ -15,9 +15,33 @@ header {
     width: 100%;
     background-color: rgb(23, 23, 23);
 
-    .title {
-        font-size: 32px;
+    .content-container {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
 
-        @include user-select-none;
+        .title {
+            flex-grow: 1;
+            font-size: 32px;
+    
+            @include user-select-none;
+        }
+
+        .logout {
+            padding: 5px;
+            color: rgb(120, 120, 120);
+            font-size: 20px;
+            cursor: pointer;
+
+            @include user-select-none;
+
+            &:hover {
+                color: white;
+            }
+
+            .icon {
+                margin-left: 3px;
+            }
+        }
     }
 }

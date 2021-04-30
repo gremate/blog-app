@@ -22,6 +22,10 @@ export default class Requests {
         return Requests._delete(`${Requests._baseUrl}/posts/${postId}`, jwtToken, dispatch);
     }
 
+    static updatePost(postId, title, content, jwtToken, dispatch) {
+        return Requests._post(`${Requests._baseUrl}/posts/${postId}`, { title, content }, jwtToken, dispatch, true);
+    }
+
     /**
      * For GET requests 
      * @private 
@@ -38,23 +42,23 @@ export default class Requests {
     }
 
     /**
-     * For POST requests 
+     * For POST and PUT requests 
      * @private 
      */
-    static _post(url, data, jwtToken, dispatch) {
+    static _post(url, data, jwtToken, dispatch, put = false) {
         return (async function () {
             const headers = new Headers({ 'Content-Type': 'application/json' });
             Requests._addAuthorization(headers, jwtToken);
 
-            const response = await fetch(url, { method: 'POST', headers, body: JSON.stringify(data) });
+            const response = await fetch(url, { method: put ? 'PUT' : 'POST', headers, body: JSON.stringify(data) });
 
             return Requests._processResponse(response, dispatch);
         })();
     }
 
     /**
-     * For DELETE requests
-     * @private
+     * For DELETE requests 
+     * @private 
      */
     static _delete(url, jwtToken, dispatch) {
         return (async function () {

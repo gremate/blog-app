@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 
-function Post({ content, creationDate, id, title, onDeleteButtonClick }) {
+function Post({ content, creationDate, id, title, onDeleteButtonClick, onEditButtonClick }) {
     const [hovered, setHovered] = useState(false);
 
     return (
@@ -12,7 +12,7 @@ function Post({ content, creationDate, id, title, onDeleteButtonClick }) {
             {hovered &&
                 <div className="buttons-container">
                     <div className="buttons">
-                        <FontAwesomeIcon className="button" icon={faEdit} />
+                        <FontAwesomeIcon className="button" icon={faEdit} onClick={() => onEditButtonClick(id)} />
                         <FontAwesomeIcon className="button delete" icon={faTrashAlt} onClick={() => onDeleteButtonClick(id)} />
                     </div>
                 </div>
@@ -31,7 +31,8 @@ Post.propTypes = {
     creationDate: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
-    onDeleteButtonClick: PropTypes.func.isRequired
+    onDeleteButtonClick: PropTypes.func.isRequired,
+    onEditButtonClick: PropTypes.func.isRequired
 };
 
 export default Post;

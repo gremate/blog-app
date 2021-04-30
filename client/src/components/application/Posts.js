@@ -9,6 +9,7 @@ import FakePost from './FakePost';
 
 export default function Posts() {
     const [posts, setPosts] = useState(null);
+    const [editablePostId, setEditablePostId] = useState(null);
     const dispatch = useDispatch();
     const jwtToken = useSelector(state => state.jwtToken);
 
@@ -48,14 +49,32 @@ export default function Posts() {
         dispatch(setLoading(false));
     }
 
+    async function onSavePostButtonClick(postId, title, content) {
+        dispatch(setLoading(true));
+
+        const updatedPost = (await Requests.updatePost(postId, title, content, jwtToken, dispatch))?.post;
+
+        if (updatedPost) {
+            setPosts(prevPosts => prevPosts.map(x => x.id === updatedPost.id ? updatedPost : x));
+            setEditablePostId(null);
+        }
+
+        dispatch(setLoading(false));
+    }
+
     return (
         <div className="posts">
             <div className="content-container">
                 {posts
                     ? (
                         <>
-                            <CreatePost onCreateButtonClick={onCreatePostButtonClick} />
-                            {posts.map(x => <Post key={x.id} content={x.content} creationDate={x.creationDate} id={x.id} title={x.title} onDeleteButtonClick={onDeletePostButtonClick} />)}
+                            <CreatePost onSubmitButtonClick={onCreatePostButtonClick} />
+                            {posts.map(x => x.id === editablePostId
+                                ? <CreatePost key={x.id} onSubmitButtonClick={onSavePostButtonClick} creationDate={x.creationDate} edit id={x.id} initialContent={x.content}
+                                    initialTitle={x.title} onCancelButtonClick={() => setEditablePostId(null)} />
+                                : <Post key={x.id} content={x.content} creationDate={x.creationDate} id={x.id} title={x.title} onDeleteButtonClick={onDeletePostButtonClick}
+                                    onEditButtonClick={postId => setEditablePostId(postId)} />
+                            )}
                         </>
                     )
                     : (

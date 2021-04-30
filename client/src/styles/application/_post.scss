@@ -55,6 +55,7 @@
             padding-right: 40%;
             font-size: 22px;
             font-weight: 600;
+            word-break: break-word;
         }
 
         .date {
@@ -95,6 +96,10 @@
     &.create-post {
         .title, .content {
             margin-bottom: 25px;
+        }
+
+        .buttons > *:not(:last-child) {
+            margin-right: 20px;
         }
     }
 }

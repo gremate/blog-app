@@ -8,7 +8,7 @@ import { letterDigitPattern } from '../../constants/patterns';
 import CustomButton from '../common/CustomButton';
 import CustomTextField from '../common/CustomTextField';
 
-export default function Login(props) {
+export default function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
